@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه میدان مغناطیسی سیملوله حامل جریان</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            direction: rtl;
+            text-align: right;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: normal;
+            color: #ffffff;
+            background-color: #3498db;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+        .slider-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .slider-label {
+            flex: 1;
+            color: #34495e;
+        }
+        .slider {
+            flex: 2;
+        }
+        .slider-value {
+            flex: 1;
+            text-align: left;
+            color: #2c3e50;
+        }
+        .formula {
+            background-color: #FFD700;
+            color: #2c3e50;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .relationships {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .creator {
+            background-color: #e74c3c;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 20px;
+        }
+        #solenoid {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
+    <!-- لینک فونت Vazir از گوگل فونت -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>محاسبه میدان مغناطیسی سیملوله حامل جریان</h1>
+    <div id="container">
+        <div id="formula" class="formula">B = (4π × 10<sup>-7</sup> × N × I) / L</div>
+        <div id="relationships" class="relationships">
+            <p>روابط با متغیرها:</p>
+            <p style="color: #e74c3c;">B ∝ N</p>
+            <p style="color: #27ae60;">B ∝ I</p>
+            <p style="color: #f39c12;">B ∝ 1/L</p>
+        </div>
+        <div class="slider-container">
+            <label for="turns" class="slider-label">تعداد دور (N):</label>
+            <input type="range" id="turns" class="slider" min="0" max="200" value="100">
+            <span id="turns-value" class="slider-value">100</span>
+        </div>
+        <div class="slider-container">
+            <label for="current" class="slider-label">جریان (I) [آمپر]:</label>
+            <input type="range" id="current" class="slider" min="0" max="10" step="0.01" value="5">
+            <span id="current-value" class="slider-value">5.00</span>
+        </div>
+        <div class="slider-container">
+            <label for="length" class="slider-label">طول سولنوئید (L) [متر]:</label>
+            <input type="range" id="length" class="slider" min="0" max="1" step="0.01" value="0.5">
+            <span id="length-value" class="slider-value">0.50</span>
+        </div>
+        <svg id="solenoid" viewBox="0 0 200 100">
+            <!-- خطوط ثابت مشکی -->
+            <line x1="10" y1="45" x2="10" y2="55" stroke="black" stroke-width="4"/>
+            <line x1="190" y1="45" x2="190" y2="55" stroke="black" stroke-width="4"/>
+            <!-- خط سبز ضخیم -->
+            <line x1="10" y1="50" x2="190" y2="50" stroke="green" stroke-width="4"/>
+            <!-- خط زرد متحرک -->
+            <line id="solenoid-length" x1="10" y1="50" x2="190" y2="50" stroke="yellow" stroke-width="12"/>
+            <!-- نمایش تعداد دور (N) به‌صورت بیضی‌های ایستاده -->
+            <g id="coils"></g>
+            <!-- نمایش نقاط آبی به‌عنوان براده‌های آهن -->
+            <g id="magnetic-field"></g>
+        </svg>
+        <div class="creator">ایجاد شده توسط: محمد فلاح، معلم فیزیک شهرستان راور، استان کرمان، سال 1403</div>
+    </div>
+    <script>
+        const MU_0 = 4 * Math.PI * 1e-7;
+
+        const turnsSlider = document.getElementById('turns');
+        const currentSlider = document.getElementById('current');
+        const lengthSlider = document.getElementById('length');
+        const turnsValue = document.getElementById('turns-value');
+        const currentValue = document.getElementById('current-value');
+        const lengthValue = document.getElementById('length-value');
+        const formulaDiv = document.getElementById('formula');
+        const solenoidLength = document.getElementById('solenoid-length');
+        const coils = document.getElementById('coils');
+        const magneticField = document.getElementById('magnetic-field');
+
+        function update() {
+            const N = parseInt(turnsSlider.value);
+            const I = parseFloat(currentSlider.value);
+            const L = parseFloat(lengthSlider.value);
+
+            const B = (MU_0 * N * I) / L;
+            formulaDiv.innerHTML = `B = (4π × 10<sup>-7</sup> × ${N} × ${I}) / ${L.toFixed(2)} = ${B.toFixed(6)} T`;
+
+            turnsValue.textContent = N;
+            currentValue.textContent = I.toFixed(2);
+            lengthValue.textContent = L.toFixed(2);
+
+            // تغییر طول خط زرد بین دو خط مشکی
+            const solenoidLengthValue = 180 * L;  // Adjust solenoid length
+            solenoidLength.setAttribute('x2', solenoidLengthValue + 10);
+
+            // نمایش تعداد دور (N) به‌صورت بیضی‌های ایستاده
+            coils.innerHTML = ''; // پاک کردن بیضی‌های قبلی
+            const coilSpacing = 180 / N; // فاصله بین بیضی‌ها
+            for (let i = 0; i < N; i++) {
+                const x = 10 + (i * coilSpacing);
+                const ellipse = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+                ellipse.setAttribute("cx", x);
+                ellipse.setAttribute("cy", 50);
+                ellipse.setAttribute("rx", 2); // شعاع افقی (کوچک)
+                ellipse.setAttribute("ry", 10); // شعاع عمودی (بزرگ، دو برابر شده)
+                ellipse.setAttribute("stroke", "#FF5733"); // رنگ نارنجی برای وضوح بیشتر
+                ellipse.setAttribute("stroke-width", "0.5"); // ضخامت خط (خیلی نازک)
+                ellipse.setAttribute("fill", "none");
+                coils.appendChild(ellipse);
+            }
+
+            // نمایش نقاط آبی به‌عنوان براده‌های آهن
+            magneticField.innerHTML = ''; // پاک کردن نقاط قبلی
+            const maxPoints = Math.floor(B * 1000); // تعداد نقاط ۱۰ برابر شده
+            for (let i = 0; i < maxPoints; i++) {
+                const x = 10 + Math.random() * 180; // موقعیت تصادفی افقی
+                const yAbove = 30 + Math.random() * 20; // موقعیت تصادفی بالای سیم‌لوله
+                const yBelow = 70 + Math.random() * 20; // موقعیت تصادفی پایین سیم‌لوله
+
+                // نقطه بالای سیم‌لوله
+                const pointAbove = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                pointAbove.setAttribute("cx", x);
+                pointAbove.setAttribute("cy", yAbove);
+                pointAbove.setAttribute("r", 1); // شعاع نقطه
+                pointAbove.setAttribute("fill", "#3498db"); // رنگ آبی
+                magneticField.appendChild(pointAbove);
+
+                // نقطه پایین سیم‌لوله
+                const pointBelow = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                pointBelow.setAttribute("cx", x);
+                pointBelow.setAttribute("cy", yBelow);
+                pointBelow.setAttribute("r", 1); // شعاع نقطه
+                pointBelow.setAttribute("fill", "#3498db"); // رنگ آبی
+                magneticField.appendChild(pointBelow);
+            }
+        }
+
+        turnsSlider.addEventListener('input', update);
+        currentSlider.addEventListener('input', update);
+        lengthSlider.addEventListener('input', update);
+
+        update();
+    </script>
+</body>
+</html>
