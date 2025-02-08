@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیملوله با هسته آهنی - آهنربای الکتریکی</title>
+    <!-- لینک فونت Vazir از CDN -->
+    <link rel="stylesheet" href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css">
+    <!-- لینک MathJax برای نمایش فرمول‌های ریاضی -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <style>
+        body {
+            font-family: 'Vazir', sans-serif;
+            background-color: #ebf5fb; /* آبی روشن */
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            direction: rtl;
+            text-align: right;
+        }
+        h1 {
+            font-size: 26px;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(45deg, #ff6b6b, #f94d6f); /* صورتی پررنگ */
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        #container {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 95%;
+            max-width: 800px;
+            position: relative;
+        }
+        .description {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #2d3436;
+            line-height: 1.6;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .checkbox-container input {
+            margin-left: 10px;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .slider-label {
+            flex: 1;
+            font-size: 14px;
+            color: #34495e;
+            margin-left: 10px;
+        }
+        .slider {
+            flex: 3;
+        }
+        .slider-value {
+            flex: 1;
+            font-size: 14px;
+            color: #d35400; /* نارنجی تیره */
+            text-align: left;
+            margin-right: 10px;
+        }
+        .formula {
+            background-color: #ffb3b3; /* صورتی پررنگ */
+            color: #2d3436;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+            border: 1px solid #ff6b6b; /* صورتی تیره */
+        }
+        .relationships {
+            background-color: #87ceeb; /* آبی آسمانی */
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #2d3436;
+            border: 1px solid #00bfff; /* آبی آسمانی تیره */
+        }
+        .relationships p {
+            margin: 5px 0;
+        }
+        .creator {
+            background-color: #f9e79f; /* زرد تیره */
+            color: #2d3436;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        #solenoid {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 800px;
+        }
+        /* استایل برای نقشه راهنما */
+        .legend {
+            background-color: #f7dc6f; /* زرد پررنگ */
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+            border: 1px solid #f1c40f; /* زرد تیره */
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #2d3436;
+            flex: 1 1 45%;
+        }
+        .legend-symbol {
+            width: 20px;
+            height: 20px;
+        }
+        /* افکت‌ها */
+        .slider:hover {
+            cursor: pointer;
+        }
+        .slider::-webkit-slider-thumb {
+            background: #d35400;
+        }
+        .slider::-moz-range-thumb {
+            background: #d35400;
+        }
+        /* فلش برای جریان */
+        .current-arrow {
+            stroke: red;
+            stroke-width: 2;
+            fill: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>سیملوله با هسته آهنی - آهنربای الکتریکی</h1>
+    <div id="container">
+        <!-- توضیحات درباره آهنربای الکتریکی -->
+        <div class="description">
+            وقتی جریانی در سیملوله برقرار می‌شود، میدان مغناطیسی سیملوله در هسته آهنی وسط آن خاصیت مغناطیسی القا می‌کند و هسته آهنی به آهنربا تبدیل می‌شود. این آهنربا را <strong>آهنربای الکتریکی</strong> می‌نامند. هر چه تعداد دورهای سیملوله و جریانی که از آن می‌گذرد بیشتر باشد، آهنربای الکتریکی قوی‌تری خواهیم داشت؛ طوری که می‌توان از آن برای بلند کردن قراضه‌های آهنی و فولادی بزرگ استفاده کرد. وجود هسته آهنی باعث تقویت میدان مغناطیسی سیملوله می‌شود. عدم حضور هسته آهنی در داخل سیملوله موجب می‌شود میدان مغناطیسی کمتری داشته باشیم که در عمل کاربرد فراوانی ندارد.
+        </div>
+        <!-- گزینه حضور یا عدم حضور هسته آهنی -->
+        <div class="checkbox-container">
+            <label for="iron-core">حضور هسته آهنی</label>
+            <input type="checkbox" id="iron-core" checked>
+        </div>
+        <!-- بخش فرمول اصلی و عوامل موثر -->
+        <div id="relationships" class="relationships">
+            <p><strong style="color: #c0392b;">فرمول اصلی:</strong> $$ B = \dfrac{\mu_0 \mu_r N I}{L} $$</p>
+            <p><strong style="color: #8e44ad;">عوامل مؤثر بر شدت میدان مغناطیسی:</strong></p>
+            <p style="color: #2980b9;">$$ B \propto N \quad,\quad B \propto I \quad,\quad B \propto \mu_r \quad,\quad B \propto \dfrac{1}{L} $$</p>
+        </div>
+        <!-- کادر فرمول محاسباتی -->
+        <div id="formula" class="formula">B = ...</div>
+        <!-- اسلایدرها -->
+        <div class="slider-container">
+            <label for="turns" class="slider-label">تعداد دور (N):</label>
+            <input type="range" id="turns" class="slider" min="1" max="200" value="100">
+            <div id="turns-value" class="slider-value">100</div>
+        </div>
+        <div class="slider-container">
+            <label for="current" class="slider-label">جریان (I) [آمپر]:</label>
+            <input type="range" id="current" class="slider" min="0.01" max="10" step="0.01" value="5">
+            <div id="current-value" class="slider-value">5.00</div>
+        </div>
+        <div class="slider-container">
+            <label for="length" class="slider-label">طول سیم‌لوله (L) [متر]:</label>
+            <input type="range" id="length" class="slider" min="0.01" max="1" step="0.01" value="0.5">
+            <div id="length-value" class="slider-value">0.50</div>
+        </div>
+        <!-- تصویر SVG -->
+        <svg id="solenoid" viewBox="0 0 200 100">
+            <!-- خطوط ثابت مشکی -->
+            <line x1="10" y1="45" x2="10" y2="55" stroke="black" stroke-width="4"/>
+            <line x1="190" y1="45" x2="190" y2="55" stroke="black" stroke-width="4"/>
+            <!-- خط سبز ضخیم (سیم‌لوله) -->
+            <line x1="10" y1="50" x2="190" y2="50" stroke="#27ae60" stroke-width="4"/>
+            <!-- خط زرد متحرک (هسته آهنی) با برش قسمت پایین -->
+            <line id="solenoid-length-top" x1="10" y1="50" x2="190" y2="50" stroke="#f39c12" stroke-width="6"/>
+            <!-- نمایش تعداد دور (N) به‌صورت نیم‌بیضی‌ها -->
+            <g id="coils"></g>
+            <!-- نمایش نقاط آبی به‌عنوان شدت میدان مغناطیسی -->
+            <g id="magnetic-field"></g>
+            <!-- فلش برای جریان -->
+            <g id="current-icon" class="current-arrow">
+                <line x1="0" y1="0" x2="0" y2="-30"/>
+                <polygon points="-5,-25 0,-30 5,-25"/>
+            </g>
+        </svg>
+        <!-- نقشه راهنما -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-symbol" style="background-color: #f39c12; width: 20px; height: 6px;"></div>
+                <span>هسته آهنی</span>
+            </div>
+            <div class="legend-item">
+                <svg width="20" height="20">
+                    <!-- نیم‌بیضی -->
+                    <path d="M0,10 A10,10 0 0,1 20,10" stroke="#e74c3c" stroke-width="1" fill="none"></path>
+                </svg>
+                <span>حلقه سیمی</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-symbol" style="background-color: #3498db; width: 10px; height: 10px; border-radius: 50%;"></div>
+                <span>شدت میدان (B)</span>
+            </div>
+            <div class="legend-item">
+                <svg width="20" height="20">
+                    <line x1="10" y1="18" x2="10" y2="4" stroke="red" stroke-width="2"/>
+                    <polygon points="7,7 10,4 13,7" fill="red"/>
+                </svg>
+                <span>شدت جریان</span>
+            </div>
+        </div>
+        <div class="creator">ایجاد شده توسط: <strong>محمد فلاح</strong>، معلم فیزیک شهرستان راور، استان کرمان، سال 1403</div>
+    </div>
+    <script>
+        const MU_0 = 4 * Math.PI * 1e-7;
+        const MU_r = 200; // نفوذپذیری نسبی آهن
+
+        const ironCoreCheckbox = document.getElementById('iron-core');
+        const turnsSlider = document.getElementById('turns');
+        const currentSlider = document.getElementById('current');
+        const lengthSlider = document.getElementById('length');
+        const turnsValue = document.getElementById('turns-value');
+        const currentValue = document.getElementById('current-value');
+        const lengthValue = document.getElementById('length-value');
+        const formulaDiv = document.getElementById('formula');
+        const solenoidLengthTop = document.getElementById('solenoid-length-top');
+        const coils = document.getElementById('coils');
+        const magneticField = document.getElementById('magnetic-field');
+        const currentIcon = document.getElementById('current-icon');
+
+        function update() {
+            const N = parseInt(turnsSlider.value);
+            const I = parseFloat(currentSlider.value);
+            const L = parseFloat(lengthSlider.value);
+            const hasIronCore = ironCoreCheckbox.checked;
+
+            const mu_r = hasIronCore ? MU_r : 1;
+            const B = (MU_0 * mu_r * N * I) / L;
+            formulaDiv.innerHTML = `$$ B = \\dfrac{4\\pi \\times 10^{-7} \\times ${mu_r} \\times ${N} \\times ${I.toFixed(2)}}{${L.toFixed(2)}} = ${B.toFixed(6)} \\ T $$`;
+
+            MathJax.typesetPromise();
+
+            turnsValue.textContent = N;
+            currentValue.textContent = I.toFixed(2);
+            lengthValue.textContent = L.toFixed(2);
+
+            // تغییر طول خط زرد بالایی
+            const solenoidLengthValue = 180 * (L / lengthSlider.max);  // تنظیم طول سیم‌لوله
+            solenoidLengthTop.setAttribute('x2', solenoidLengthValue + 10);
+
+            // تنظیم موقعیت حلقه‌های سیمی (نیم‌بیضی‌ها)
+            coils.innerHTML = ''; // پاک کردن حلقه‌های قبلی
+            const coilSpacing = solenoidLengthValue / N; // فاصله بین حلقه‌ها
+
+            // تعداد حلقه‌ها را محدود می‌کنیم تا نمایش مناسب باشد
+            const maxCoils = Math.min(N, 200);
+            const coilInterval = N / maxCoils;
+            for (let i = 0; i < maxCoils; i++) {
+                const x = 10 + (i * coilSpacing * coilInterval);
+
+                // رسم نیم‌بیضی (قسمت جلویی حلقه)
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                const rx = 2; // شعاع در راستای x
+                const ry = 10; // شعاع در راستای y
+                const d = `M${x - rx},50 A${rx},${ry} 0 0,1 ${x + rx},50`;
+                path.setAttribute("d", d);
+                path.setAttribute("stroke", "#e74c3c"); // رنگ قرمز
+                path.setAttribute("stroke-width", "0.5"); // ضخامت خط
+                path.setAttribute("fill", "none");
+                coils.appendChild(path);
+            }
+
+            // نمایش نقاط آبی به‌عنوان شدت میدان مغناطیسی
+            magneticField.innerHTML = ''; // پاک کردن نقاط قبلی
+            const maxPoints = Math.min(Math.floor(B * 1e6), 200); // محدود کردن تعداد نقاط
+            for (let i = 0; i < maxPoints; i++) {
+                const x = 10 + Math.random() * solenoidLengthValue; // موقعیت تصادفی افقی
+                const yAbove = 30 + Math.random() * 20; // موقعیت تصادفی بالای سیم‌لوله
+                const yBelow = 70 + Math.random() * 20; // موقعیت تصادفی پایین سیم‌لوله
+
+                // نقطه بالای سیم‌لوله
+                const pointAbove = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                pointAbove.setAttribute("cx", x);
+                pointAbove.setAttribute("cy", yAbove);
+                pointAbove.setAttribute("r", 1); // شعاع نقطه
+                pointAbove.setAttribute("fill", "#3498db"); // رنگ آبی
+                magneticField.appendChild(pointAbove);
+
+                // نقطه پایین سیم‌لوله
+                const pointBelow = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                pointBelow.setAttribute("cx", x);
+                pointBelow.setAttribute("cy", yBelow);
+                pointBelow.setAttribute("r", 1); // شعاع نقطه
+                pointBelow.setAttribute("fill", "#3498db"); // رنگ آبی
+                magneticField.appendChild(pointBelow);
+            }
+
+            // تنظیم اندازه فلش جریان بر اساس جریان (I)
+            const arrowSize = 20 * (I / currentSlider.max); // مقیاس بر اساس مقدار I
+            const arrowX = solenoidLengthValue + 10; // موقعیت x فلش در انتهای سیم‌لوله
+            const arrowY = 70; // موقعیت y پایه فلش
+            currentIcon.setAttribute("transform", `translate(${arrowX}, ${arrowY}) scale(1)`);
+
+            // تنظیم نقاط فلش
+            const line = currentIcon.querySelector('line');
+            const polygon = currentIcon.querySelector('polygon');
+            line.setAttribute('x1', 0);
+            line.setAttribute('y1', 0);
+            line.setAttribute('x2', 0);
+            line.setAttribute('y2', -arrowSize);
+            polygon.setAttribute('points', `-5,${-arrowSize + 5} 0,${-arrowSize} 5,${-arrowSize + 5}`);
+        }
+
+        turnsSlider.addEventListener('input', update);
+        currentSlider.addEventListener('input', update);
+        lengthSlider.addEventListener('input', update);
+        ironCoreCheckbox.addEventListener('change', update);
+
+        update();
+    </script>
+</body>
+</html>
